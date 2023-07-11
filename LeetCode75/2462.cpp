@@ -14,6 +14,8 @@ long long totalCost(vector<int>& costs, int k, int candidates) {
             ptr1++;
             ptr2--;
         }
+        ptr1--;
+        ptr2++;
         long long ans = 0;
         for(int i = 0; i < k; i++)
         {
@@ -21,15 +23,15 @@ long long totalCost(vector<int>& costs, int k, int candidates) {
             {
                 ans += p1.top();
                 p1.pop();
-                if(ptr1 < n && ptr1 < ptr2);
-                p1.push(costs[ptr1++]);
+                if(ptr1 < n && ptr1 < ptr2)
+                p1.push(costs[++ptr1]);
             }
             else
             {
                 ans += p2.top();
                 p2.pop();
                 if(ptr2 >= 0 && ptr2 > ptr1)
-                p2.push(costs[ptr2--]);
+                p2.push(costs[--ptr2]);
             }
 
         }
@@ -38,5 +40,9 @@ long long totalCost(vector<int>& costs, int k, int candidates) {
     }
 int main()
 {
+    vector<int> costs = {17,12,10,2,7,2,11,20,8};
+    int k = 3;
+    int candidates = 4;
+    cout << totalCost(costs, k, candidates) << endl;
     return 0;
 }
