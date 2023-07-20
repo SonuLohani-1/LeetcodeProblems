@@ -1,88 +1,52 @@
-// We will be going down while the the points of children decreasing and stop at a point where it starts increasing
-// from the lower point (we give one candy to child at the lower point)
-// we will keep moving backwards until points are increasing(obviously in backward direction and keep on increasing one candy)
-// we will keep following this while all the children are assigned with at least one candy
+
 #include <bits/stdc++.h>
 using namespace std;
-int candy(vector<int> &ratings)
+class Solution
 {
-    int n = ratings.size();
-    int ans = 0;
-    if (n == 0 || n == 1)
-        return n;
+    // This is the logic behind solving candy problem on leetcode
+    // This is a very good problem to understand the logic of two pass algo
+    // The logic is to first assign 1 candy to each child
+    // Then we traverse from left to right and check if the current child has more rating than the previous child
+    // If yes then we assign the current child 1 more candy than the previous child
+    // Then we traverse from right to left and check if the current child has more rating than the next child
+    // If yes then we assign the current child 1 more candy than the next child
+    // This way we ensure that the current child has more candies than both the previous and the next child
 
-    int low_going_count = 0;
-    int up_going_count = 0;
-    for (int i = 0; i <= n-1; i++)
+public:
+    int candy(vector<int> &ratings)
     {
-        if(i == 0) // only comparing with the next element
+        // giving 1 candy to each of the child
+        vector<int> candies_distribution(ratings.size(), 1);
+
+        // left to right
+        for (int i = 1; i < ratings.size(); i++)
         {
-            if(ratings[1] < ratings[0]) low_going_count++;
-            else if(ratings[1] > ratings[0]) up_going_count++;
-            else ans++;
+            if (ratings[i] > ratings[i - 1])
+            {
+                candies_distribution[i] = candies_distribution[i - 1] + 1;
+            }
         }
-        else if(i == n-1) // only comparing it with term before it
+
+        // right to left
+        for (int i = ratings.size() - 2; i >= 0; i--)
         {
-            if(ratings[n-1] < ratings[n-2]) low_going_count++;
-            else if(ratings[n-1] > ratings[n-2]) up_going_count++;
-            else ans++;
+            if (ratings[i] > ratings[i + 1])
+            {
+                candies_distribution[i] = candies_distribution[i + 1] + 1;
+            }
         }
-        else
+
+        int total = 0;
+        for (int i = 0; i < ratings.size(); i++)
         {
-            // going on upper_slope
-            if(ratings[i] > ratings[i-1] && ratings[i] <= ratings[i+1])
-            {
-                up_going_count++;
-            }
-            // going down the slope
-            else if(ratings[i] < ratings[i-1] && ratings[i] >= ratings[i+1])
-            {
-                low_going_count++;
-            }
-            // if it is a valley
-            else if(ratings[i] < ratings[i-1] && ratings[i] < ratings[i+1])
-            {
-                ans++;
-                ans += (low_going_count + 1)*(low_going_count)/2 - 1;
-                low_going_count = 0;
-            }
-
-            // if it is a hill
-            else if(ratings[i] > ratings[i-1] && ratings[i] > ratings[i+1])
-            {
-                up_going_count++;
-                ans += up_going_count*(up_going_count+1)/2 - 1;
-                up_going_count = 0;
-            }
-
-            // if it is a plane
-            else
-            {
-                while(i < n-1 && ratings[i] == ratings[i-1] && ratings[i] == ratings[i+1])
-                {
-                    ans++;
-                    i++;
-                }
-                if(up_going_count>0)
-                {
-                    up_going_count++;
-                    ans += up_going_count*(up_going_count+1)/2;
-                }
-                else if(low_going_count>0)
-                {
-                    low_going_count++;
-                    ans += low_going_count*(low_going_count+1)/2;
-                }   
-
-            }
-
+            total += candies_distribution[i];
         }
+
+        return total;
     }
-    return ans;
-}
+};
 int main()
 {
-    vector<int> arr = {1, 0, 2};
-    cout << candy(arr) << endl;
+
     return 0;
 }
