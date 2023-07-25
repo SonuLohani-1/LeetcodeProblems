@@ -1,39 +1,48 @@
 #include <bits/stdc++.h>
 using namespace std;
-/* Noting down the steps to solve this problem:
-1. Check if the element has been encountered before if not make a map from s -> t and t -> s
-    if yes then check they were before also pointing like this if yes continue else return false;
+// This is the solution of the problem 205. Isomorphic Strings in LeetCode
+// https://leetcode.com/problems/isomorphic-strings/
 
-*/
-bool isIsomorphic(string s, string t)
+// The intuition behind this problem is that we can map the characters of the first string to the second string
+// and if we find a character that is already mapped to another character then we can return false.
+
+class Solution
 {
-    if (s.length() != t.length())
-        return false;
-    int n = s.length();
-    unordered_map<char, char> map1, map2;
-    for (int i = 0; i < s.length(); i++)
+public:
+    bool isIsomorphic(string s, string t)
     {
-        if(map1.find(s[i]) == map1.end()) // means we didn't find the element
+        unordered_map<char, char> mp;
+        unordered_set<char> st;
+        for (int i = 0; i < s.size(); i++)
         {
-            map1[s[i]] = t[i];
-            if(map2.find(t[i]) == map2.end()) // we didn't find in map2
-                map2[t[i]] = s[i];
+
+            // If the character is not present in the map then we can map it to the character in the second string
+            if (mp.find(s[i]) == mp.end())
+            {
+                if (st.find(t[i]) != st.end())
+                {
+                    return false;
+                }
+                mp[s[i]] = t[i];
+                st.insert(t[i]);
+            }
+
+            // If the character is present in the map then we can check if it is mapped to the same character in the second string
             else
             {
-                if(map2[t[i]] != s[i])
-                return false;
+                if (mp[s[i]] != t[i])
+                {
+                    return false;
+                }
             }
         }
-        else // means we find the element in map1
-        {
-            if(map1[s[i]] != t[i]) return false;
-        }
+        return true;
     }
-    return true;
-}
+};
 
 int main()
 {
-    cout << isIsomorphic("badc", "baba") << endl;
+    Solution s;
+    cout << s.isIsomorphic("badc", "baba") << endl;
     return 0;
 }

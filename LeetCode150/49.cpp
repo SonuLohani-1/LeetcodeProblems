@@ -1,5 +1,12 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+// This is the solution of the problem 49. Group Anagrams in LeetCode
+// https://leetcode.com/problems/group-anagrams/
+
+// The intuition behind this problem is that we can sort the words and then we can group the words that are anagrams of each other
+
+// This is the solution I came up with
 vector<vector<string>> groupAnagrams(vector<string>& strs)
 {
     unordered_map<string, vector<string>> map;
@@ -21,6 +28,28 @@ vector<vector<string>> groupAnagrams(vector<string>& strs)
     }
     return ans;
 }
+
+// A more elegant solution
+class Solution
+{
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs)
+    {
+        unordered_map<string, vector<string>> mp;
+        for (string s : strs)
+        {
+            string t = s;
+            sort(t.begin(), t.end());
+            mp[t].push_back(s);
+        }
+        vector<vector<string>> anagrams;
+        for (auto p : mp)
+        {
+            anagrams.push_back(p.second);
+        }
+        return anagrams;
+    }
+};
 int main()
 {
     return 0;
