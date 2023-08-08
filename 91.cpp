@@ -27,8 +27,24 @@ int Decode(string s, int i, vector<int> &memo)
 
 int numDecodings(string s)
 {
-    vector<int> memo(s.length()+1, -1);
-    return Decode(s, 0, memo);
+    int n = s.length();
+    vector<int> dp(n+1, 0);
+    dp[n-1] = s[n-1] != '0';// for assigning 0 or 1 to dp[n-1];
+    //dp[i] denotes the substring starting from i and stores number of ways to decode it.
+    
+    for(int i = n-1; i>= 0; i--)
+    {
+        if(s[i] != '0')
+        {
+            // moving one step forward
+            dp[i] += dp[i+1];
+
+            // moving two steps if allowed
+            if(i+1 < s.length() && (s[i] == '1' || (s[i] == '2' && s[i+1] < '7')))
+            dp[i] += dp[i+2];
+        }
+    }
+    return dp[0];
 }
 int main()
 {

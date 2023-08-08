@@ -30,8 +30,8 @@ string reverseWords(string s) {
 int main()
 {
     string s;
-    cin >> s;
+    getline(cin, s);
     s = reverseWords(s);
-    cout << s;
+    cout << " This is the string " << s << endl;;
     return 0;
 }
