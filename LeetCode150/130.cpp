@@ -1,21 +1,3 @@
-// This is the surrounded regions problem solution
-/*
-This is the math part of the (i, j) coordinates to singular linear coordinates I am using
-Matrix is like this:
- 0  1  2  3  4  5
- 6  7  8  9 10 11
-12 13 14 15 16 17
-
-with 3 rows and 6 cols
-for e.g if i = 2, j = 4, idx = i*cols - 1 + j + 1 = i*cols + j = 2*6 + 4 = 16
-which is true because element in our matrix is nothing but the indices only.
-
-To go back to i, j
-i = idx/cols = 16/6 = 2
-j = idx - i*cols = 16 - 2 * 6 = 4
-
-This is the way I can avoid using the pair map
-*/
 #include <bits/stdc++.h>
 using namespace std;
 int m, n;
