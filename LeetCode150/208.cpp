@@ -1,49 +1,53 @@
 #include<bits/stdc++.h>
 using namespace std;
+// This is the solution of the problem 208 on leetcode - Implement Trie (Prefix Tree)
+// https://leetcode.com/problems/implement-trie-prefix-tree/
+
 
 class Trie {
 private:
-    vector<Trie*> links{26, NULL};
-    bool isEnd = false;
+    vector<Trie*> children;
+    bool isEnd;
 public:
     Trie() {
-        
+        children = vector<Trie*>(26, 0);
+        isEnd = false;
     }
     
     void insert(string word) {
-        Trie* ptr = links[0];
-        for(auto ch : word)
+        Trie* curr = this;
+        for(auto c : word)
         {
-            if (ptr->links[ch - 'a'] == NULL) {
-                ptr->links[ch - 'a'] = new Trie();
-            }
-            ptr = ptr->links[ch - 'a'];
+            if(curr->children[c - 'a'] == NULL)
+                curr->children[c-'a'] = new Trie();
+            curr = curr->children[c-'a'];
         }
-        ptr->isEnd = true;
+        curr->isEnd = true;
     }
     
     bool search(string word) {
-        Trie* ptr = links[0];
-        for(auto ch : word)
+        Trie* curr = this;
+        for(auto c : word)
         {
-            ptr = ptr->links[ch - 'a'];
-            if(ptr == NULL)
+            if(curr->children[c-'a'] == NULL)
                 return false;
+            curr = curr->children[c-'a'];
         }
-        return ptr->isEnd;
+        return curr->isEnd;
     }
     
     bool startsWith(string prefix) {
-        Trie* ptr = links[0];
-        for(auto ch : prefix)
+        auto curr = this;
+        for(auto c : prefix)
         {
-            ptr = ptr->links[ch - 'a'];
-            if(ptr == NULL)
+            if(curr->children[c-'a'] == NULL)
                 return false;
+            curr = curr->children[c-'a'];
         }
         return true;
     }
 };
+
 
 int main() {
     return 0;
