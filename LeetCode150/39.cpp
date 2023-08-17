@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+// This is the solution of the problem 39 on leetcode - Combination Sum
+// https://leetcode.com/problems/combination-sum/
+
+// The idea is to use backtracking to find all the possible combinations
+// The time complexity is O(2^n) and space complexity is O(n)
+
 class Solution
 {
 private:
@@ -26,6 +32,32 @@ public:
     {
         backtrack(candidates, target, 0, {});
         return ans;
+    }
+};
+
+// We can also use for loop inside the function
+class Solution2
+{
+private:
+    vector<vector<int>> ans;
+    void backtrack(vector<int> &candidates, int target, int idx, vector<int> currCombination)
+    {
+        if (target == 0)
+        {
+            ans.push_back(currCombination);
+            return;
+        }
+        if (target < 0 || idx == candidates.size())
+        {
+            return;
+        }
+
+        for (int i = idx; i < candidates.size(); i++)
+        {
+            currCombination.push_back(candidates[i]);
+            backtrack(candidates, target - candidates[i], i, currCombination);
+            currCombination.pop_back();
+        }
     }
 };
 int main()

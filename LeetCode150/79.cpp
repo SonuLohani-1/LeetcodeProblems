@@ -1,7 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
-// This is the word search problem I am trying to solve here
-// for searching word if some square has already been visited
+// This is the solution of the problem 79 on leetcode - Word Search
+// https://leetcode.com/problems/word-search/
+
+// The idea is to use backtracking to find the word in the grid
+// The time complexity is O(m*n*4^l) and space complexity is O(m*n)
 class Solution
 {
 private:
@@ -12,14 +15,13 @@ private:
         if(traversal[i][j] || board[i][j] != word[idx]) return false;
 
         traversal[i][j] = true;
-        // searching left;
         bool a = search(board, word, i, j-1, m, n, traversal, idx+1) ||
                 search(board, word, i, j+1, m, n, traversal, idx+1)||
                 search(board, word, i-1, j, m, n, traversal, idx+1)||
                 search(board, word, i+1, j, m, n, traversal, idx+1);
         
         
-        traversal[i][j] = false;
+        traversal[i][j] = false; // this is the backtracking step 
         return a;
     }
 
