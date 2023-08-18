@@ -1,5 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+// This is the solution for the problem 148. Sort List in LeetCode
+// https://leetcode.com/problems/sort-list/
+
+// The idea is to use the merge sort technique to sort the list
+// we can simply traverse to the middle so I am using Flloyd's algorithm
+
+
 // definition of singly-linked list.
 struct ListNode
 {

@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+// This is the solution of the problem 918 on leetcode - Maximum Sum Circular Subarray
+// https://leetcode.com/problems/maximum-sum-circular-subarray/
+
+// The idea behind this problem is to find the maximum sum of subarray in a circular array.
+// The maximum sum of subarray in a circular array will be the maximum of the maximum sum of subarray in a non circular array and the sum of all the elements in the array minus the minimum sum of subarray in a non circular array.
+
 class Solution
 {
 public:
