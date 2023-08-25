@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// This is the solution of the problem 50 on leetcode - Pow(x, n)
+// https://leetcode.com/problems/powx-n/
+
 // Constraints:
 //     -100.0 < x < 100.0
 //     -2^31 <= n <= 2^31-1

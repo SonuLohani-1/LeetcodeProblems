@@ -1,17 +1,19 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+// This is the solution of the problem 201 on Leetcode - Bitwise AND of Numbers Range
+// https://leetcode.com/problems/bitwise-and-of-numbers-range/
+
+// The efficient solution requires observation that the prefix of common set bits without any changing bits  in between will remain at the last so the answer will be either less than left or equal to left
+// so starting from the right we can drop the last bit until it becomes <= left at that moment we can return the ans
 class Solution {
 public:
     int rangeBitwiseAnd(int left, int right) {
-        // We see that the when we do a & a-1 number beyond least significant bit gets reversed so we will do this till right > left;
-        // because only those bits should remain which are not changing and same in both left and right;
-        int result = right;
         while(right > left)
         {
-            result = right & (right - 1);
-            right = result;
+            right = (right) & (right - 1);
         }
-        return result;
+        return right;
     }
 };
 int main()

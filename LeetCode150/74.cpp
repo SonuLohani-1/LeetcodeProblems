@@ -1,5 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
+// This is the solution of the problem 74 on leetcode - Search a 2D Matrix
+// https://leetcode.com/problems/search-a-2d-matrix/
+
+// The idea behind this problem is to apply binary search in the rows and then in the columns.
+// We can apply binary search in the rows because the first element of the next row is greater than the last element of the previous row.
+// We can apply binary search in the columns because the first element of the next column is greater than the last element of the previous column.
+
+
 class Solution
 {
 private:
@@ -14,7 +22,7 @@ private:
                 // do the simple linear binary search
                 while(left <= right)
                 {
-                    int mid = (left + right)/2; // ranges are not very high therefor this version
+                    int mid = (left + right)/2;
                     if(matrix[i][mid] == target) return true;
                     else if(matrix[i][mid] > target) right = mid - 1;
                     else left = mid + 1;
