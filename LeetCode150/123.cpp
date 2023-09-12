@@ -3,39 +3,55 @@ using namespace std;
 // This is the solution for the problem 123 on leetcode - buy and sell stock III
 // https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
 
-// The idea is to find the maximum profit that can be made by buying and selling the stock atmost 2 times
-// We can do this by finding the maximum profit that can be made by buying and selling the stock atmost 1 time
-// and then finding the maximum profit that can be made by buying and selling the stock atmost 1 time in the reverse direction
-// and then adding the two profits to get the maximum profit that can be made by buying and selling the stock atmost 2 times
-// This trick works because we can only buy and sell the stock atmost 2 times
-// So, we can buy and sell the stock atmost 1 time and then buy and sell the stock atmost 1 time in the reverse direction
-// to get the maximum profit that can be made by buying and selling the stock atmost 2 times
-// Time Complexity - O(n)
-// Space Complexity - O(n)
-
+// we can decide to sell first stock from 0 to n-1 days
+// if we sell on day i then we can get profit of price on that day minus minimum price of 0 to i-1 days
+// then for second stock we want to get maximum profit from i + 1 to n-1;
+// so it is like single stock problem only 
 class Solution {
+private:
+    // helper function to get the maximum profit from i to jth day of selling a stock
+    void helper1(vector<int>& prices, vector<int> &maxProfit_0_to_i)
+    {
+    
+        int minm = prices[0];
+        for(int j = 1; j < prices.size(); j++)
+        {
+            maxProfit_0_to_i[j] = max(maxProfit_0_to_i[j-1], prices[j] - minm);
+            minm = min(minm, prices[j]);
+        }
+    }
+
+    void helper2(vector<int>& prices, vector<int> &maxProfit_i_to_end)
+    {
+        int n = prices.size();
+        int maxm = prices[n-1];
+        for(int j = n-2; j >= 0; j--)
+        {
+            maxProfit_i_to_end[j] = max(maxProfit_i_to_end[j+1], maxm - prices[j]);
+            maxm = max(maxm, prices[j]);
+        }
+    }
 public:
     int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        if(n == 0) {
-            return 0;
+        int n = (int) prices.size();
+        vector<int> maxProfit_0_to_i(n, 0);
+        vector<int> maxProfit_i_to_end(n, 0);
+        int ans = 0;
+        helper1(prices, maxProfit_0_to_i);
+        helper2(prices, maxProfit_i_to_end);
+        ans = maxProfit_i_to_end[0];
+        for(int i = 1; i < n-1; i++)
+        {
+            ans = max(ans, maxProfit_0_to_i[i]+maxProfit_i_to_end[i+1]);
         }
-        vector<int> left(n, 0);
-        vector<int> right(n, 0);
-        int minPrice = prices[0];
-        for(int i = 1; i < n; i++) {
-            left[i] = max(left[i - 1], prices[i] - minPrice);
-            minPrice = min(minPrice, prices[i]);
-        }
-        int maxPrice = prices[n - 1];
-        for(int i = n - 2; i >= 0; i--) {
-            right[i] = max(right[i + 1], maxPrice - prices[i]);
-            maxPrice = max(maxPrice, prices[i]);
-        }
-        int maxProfit = 0;
-        for(int i = 0; i < n; i++) {
-            maxProfit = max(maxProfit, left[i] + right[i]);
-        }
-        return maxProfit;
+        return ans;
     }
 };
+
+int main()
+{
+    Solution sol;
+    vector<int> prices = {3,3,5,0,0,3,1,4};
+    cout << sol.maxProfit(prices) << endl;
+    return 0;
+}

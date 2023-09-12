@@ -30,7 +30,7 @@ class Solution2
         {
             vector<int> dp(amount + 1, amount +1);
             dp[0] = 0;
-            for(int i = 1; i <= amount; amount++)
+            for(int i = 1; i <= amount; i++)
             {
                 for(auto coin : coins)
                 {

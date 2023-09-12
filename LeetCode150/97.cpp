@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// This is the solution of the problem 97 on leetcode - Interleaving String
+// https://leetcode.com/problems/interleaving-string/
 class Solution
 {
 public:
@@ -34,6 +36,39 @@ public:
         }
         return dp[0][0];
         
+    }
+};
+
+// This is the tabulization solution or true dp solution
+// Also doing the space optimization;
+class Solution1 {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        if(s1.length() + s2.length() != s3.length()) return false;
+
+        //vector<vector<bool>> dp(s1.length()+1, vector<bool> (s2.length()+1, 0));
+        //we notice that only the row below curr row is required 
+        // in this case we also need another base cases
+        if(s1.length() == 0 ) return s2 == s3;
+        if(s2.length() == 0 ) return s1 == s3;
+        vector<bool> row(s2.length()+1, false);
+    
+        //dp[s1.length()][s2.length()] = true;
+        row[s2.length()] = true;
+
+        for(int i = s1.length(); i >= 0; i--)
+        {
+            for(int j = s2.length(); j >= 0; j--)
+            {
+                if(i < s1.length() && s1[i] == s3[i+j] && row[j])
+                    row[j] = true;
+                else if(j < s2.length() && s2[j] == s3[i+j] && row[j+1])
+                    row[j] = true;
+                else if(j != s2.length())
+                    row[j] = false;
+            }
+        }
+        return row[0];
     }
 };
 
@@ -75,5 +110,11 @@ public:
 };
  int main()
 {
+    string s1 = "aabcc";
+    string s2 = "dbbca";
+    string s3 = "aadbbcbcac";
+
+    Solution1 s;
+    cout << s.isInterleave(s1, s2, s3) << endl;
     return 0;
 }

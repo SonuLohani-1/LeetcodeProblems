@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+// This is the solution of the problem 221 on leetcode - Maximal Square
+// https://leetcode.com/problems/maximal-square/
+
+// This is the recursive solution
+
 class Solution
 {
 private:
