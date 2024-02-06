@@ -24,7 +24,7 @@ public:
         {
             string word;
             getline(ss, word, ' ');
-            if (map1.find(pattern[ptr]) != map1.end() || map2.find(word) != map2.end()) // it simply means we found the curr in at least one of the maps
+            if (map1.find(pattern[ptr]) != map1.end() || map2.find(word) != map2.end()) // it  we find the curr in at least one of the maps
             {
                 if (map1[pattern[ptr]] != word or map2[word] != pattern[ptr])
                     return false;

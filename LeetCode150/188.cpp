@@ -28,7 +28,31 @@ public:
 };
 
 
+// we can also write the above code in the bottom up approach
+// Following is the step by step explanation of the code
+// 1. We create a dp array of size prices.size() * k+1
+// 2. We iterate over the k and for each k we iterate over the prices
+// 3. We find the minimum price till now and then we find the maximum profit we can get by selling on that day
+// 4. We store the maximum profit in the dp array
+// 5. We return the last element of the dp array
 
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        if(prices.size() == 0) return 0;
+        vector<vector<int>> dp(prices.size(), vector<int> (k+1, 0));
+        for(int i = 1; i <= k; i++)
+        {
+            int minm = prices[0];
+            for(int j = 1; j < prices.size(); j++)
+            {
+                minm = min(minm, prices[j] - dp[j][i-1]);
+                dp[j][i] = max(dp[j-1][i], prices[j] - minm);
+            }
+        }
+        return dp[prices.size()-1][k];
+    }
+};
 int main()
 {
     return 0;
